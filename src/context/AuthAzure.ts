@@ -1,7 +1,5 @@
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
-import { useIsAuthenticated } from '@azure/msal-react';
 import { loginRequest, msalConfig } from '../services/azure.config';
-import { User } from './auth.model';
 import { IAuth } from './IAuth';
 
 function handleLogin(instance: IPublicClientApplication) {
