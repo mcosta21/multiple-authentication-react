@@ -1,25 +1,35 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import Loading from "../../components/Loading";
+import { AuthUser } from "../../context/Auth/auth.model";
 import { useAuth } from "../../hooks/useAuth";
 import './styles.css';
 
 
 export function Login(){
-    const { isAuthenticated, isAuthProgress,  signIn } = useAuth();
+
+    const [authUser, setAuthUser] = useState<AuthUser>({ email: 'a', password: 'a'});
+    const { isAuthenticated, signIn } = useAuth();
     const navigate = useNavigate();
 
     function handleSignInAzure() {
         signIn('AZURE');
     }
 
-    function handleSignInIntern(){
-        const user = {
-            email: 'marcioc424@gmail.com',
-            password: '123456'
+    function handleSignInIntern(event: React.FormEvent){
+        event.preventDefault();
+        
+        if(!authUser.email) {
+            alert('E-mail não informado')
+            return;
+        };
+
+        if(!authUser.password) {
+            alert('Senha não informada');
+            return;
         }
-        signIn('INTERN', user);
+
+        signIn('INTERN', authUser);
     }
 
     useEffect(() => {
@@ -28,14 +38,10 @@ export function Login(){
         }
     }, [isAuthenticated])
 
-    if(isAuthProgress) {
-        return <Loading />
-    }
-
     return (
         <main className="login-page">
 
-            <form>
+            <form onSubmit={handleSignInIntern}>
                 <aside className="sign-buttons">
                     <button className="btn-sign-azure" onClick={() => handleSignInAzure()}>
                         <img src="src/assets/microsoft_logo.png"/>
@@ -44,15 +50,15 @@ export function Login(){
 
                 <div>
                     <label htmlFor="email">E-mail:</label>
-                    <input type="email" name="email" />
+                    <input type="email" name="email" onChange={(e) => setAuthUser({...authUser, email: e.target.value })}/>
                 </div>
 
                 <div>
                     <label htmlFor="password">Senha:</label>
-                    <input type="password" name="password" />
+                    <input type="password" name="password" onChange={(e) => setAuthUser({...authUser, password: e.target.value })} />
                 </div>
 
-                <button className="btn-sign-intern" onClick={() => handleSignInIntern()}>Entrar</button>
+                <button type="submit" className="btn-sign-intern">Entrar</button>
             </form>
 
         </main>
