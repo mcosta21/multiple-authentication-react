@@ -9,7 +9,6 @@ export const AuthContext = createContext<AuthContextData>(
 export function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<User>();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isAuthProgress, setIsAuthProgress] = useState(false);
     const [authMethod, setAuthMethod] = useState<IAuth>();
 
     useEffect(() => {
@@ -17,30 +16,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }, []);
 
     async function signIn(method: AuthMethodKey, authUser?: AuthUser) {
-       setIsAuthProgress(true);
        localStorage.setItem('@Auth.method', method);
        const auth = AuthMethod[method];
        setAuthMethod(auth);
 
-       const user = await auth.signIn();
+       const user = await auth.signIn(authUser);
 
-       if(user) {
-            setUserLogged(auth)
+       if(user != undefined) {
+            await setUserLogged(auth)
        }
-       setIsAuthProgress(false);
     }
 
     function signOut() {
-        setIsAuthProgress(true);
         if(authMethod) {
             setIsAuthenticated(false);
             setUser(undefined);
             authMethod?.signOut();
-            setIsAuthProgress(false);
             localStorage.removeItem('@Auth.method');
         }
         else {
-            setIsAuthProgress(false);
             console.error('auth method undefined');
         }
     }
@@ -49,7 +43,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if(authMethod) {
             setUserLogged(authMethod);
         }
-        setIsAuthProgress(false);
     }, [authMethod])
 
     async function setUserLogged(authMethod: IAuth) {
@@ -58,9 +51,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
        setUser(authMethod.getUser());
     }
 
-    function createAuthMethodFromStorage(){
-        setIsAuthProgress(true);
-        const storageMethod = localStorage.getItem('@Auth.method');
+    async function createAuthMethodFromStorage(){
+        const storageMethod = await localStorage.getItem('@Auth.method');
         if(storageMethod) {
             const method = storageMethod as AuthMethodKey;
             const auth = AuthMethod[method];
@@ -70,7 +62,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     return (
         <AuthContext.Provider
-            value={{ user, isAuthenticated, signIn, signOut, isAuthProgress }}
+            value={{ user, isAuthenticated, signIn, signOut }}
         >
             {children}
         </AuthContext.Provider>

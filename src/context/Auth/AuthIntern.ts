@@ -1,3 +1,4 @@
+import { AuthUser } from './auth.model';
 import { IAuth } from './IAuth';
 
 export class AuthIntern implements IAuth {
@@ -8,14 +9,21 @@ export class AuthIntern implements IAuth {
         console.log('starting auth intern');
     }
 
-    public signIn = async () => {
-        //setTimeout(() => {
+    public signIn = async (authUser?: AuthUser) => {
+        setTimeout(() => {
+
+            if(authUser) {
+                sessionStorage.setItem('@Auth.email', authUser.email);
+                return { email: authUser.email, username: 'User interno'}
+            }
+
             const userStorage = sessionStorage.getItem('@Auth.email');
-            console.log('sign intern', userStorage)
-            if(userStorage === null)
-                sessionStorage.setItem('@Auth.email', 'marcioc424@gmail.com');
-            return { email: 'marcioc424@gmail.com', username: 'User interno'}
-        //}, 1000);
+            if(userStorage !== null) {
+                return { email: userStorage, username: 'User interno'}
+            }
+
+            return undefined;
+        }, 200000);
     };
 
     public signOut = () => {

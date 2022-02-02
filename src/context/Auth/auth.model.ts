@@ -17,7 +17,6 @@ export interface AuthContextData {
     signIn: (method: AuthMethodKey, user?: AuthUser) => void;
     signOut: () => void;
     isAuthenticated: boolean;
-    isAuthProgress: boolean;
 }
 
 export const AuthMethod = {
