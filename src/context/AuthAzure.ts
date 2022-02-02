@@ -23,6 +23,7 @@ export class AuthAzure implements IAuth {
     
     constructor(){
         this.instance = new PublicClientApplication(msalConfig);
+        console.log(msalConfig)
         console.log('starting auth azure');
     }
 

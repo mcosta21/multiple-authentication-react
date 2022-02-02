@@ -13,8 +13,8 @@ interface MsalConfig {
 
 export const msalConfig = {
     auth: {
-      clientId: String(process.env.REACT_APP_AZURE_CLIENT_ID),
-      redirectUri: String(process.env.REACT_APP_LOGIN_PAGE),
+      clientId: import.meta.env.VITE_AZURE_CLIENT_ID,
+      redirectUri: import.meta.env.VITE_LOGIN_PAGE,
       authority: "https://login.microsoftonline.com/common",
     },
     cache: {
@@ -26,3 +26,4 @@ export const msalConfig = {
 export const loginRequest = {
   scopes: ['user.read'],
 }
+
