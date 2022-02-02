@@ -13,8 +13,8 @@ interface MsalConfig {
 
 export const msalConfig = {
     auth: {
-      clientId: '938e4139-c212-4110-ac34-df6a9f0d2faa',
-      redirectUri: 'http://localhost:3000',
+      clientId: String(process.env.REACT_APP_AZURE_CLIENT_ID),
+      redirectUri: String(process.env.REACT_APP_LOGIN_PAGE),
       authority: "https://login.microsoftonline.com/common",
     },
     cache: {
