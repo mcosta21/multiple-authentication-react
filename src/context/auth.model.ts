@@ -1,3 +1,5 @@
+import { AuthIntern } from './AuthIntern';
+import { AuthAzure } from './AuthAzure';
 import { ReactNode } from "react";
 
 export interface User {
@@ -12,17 +14,19 @@ export interface AuthUser {
 
 export interface AuthContextData {
     user?: User;
-    signIn: () => void;
+    signIn: (method: AuthMethodKey, user?: AuthUser) => void;
     signOut: () => void;
     isAuthenticated: boolean;
+    isAuthProgress: boolean;
 }
 
-export enum AuthMethod {
-  AZURE = 'AZURE',
-  INTERN = 'INTERN'
+export const AuthMethod = {
+  AZURE: new AuthAzure(),
+  INTERN: new AuthIntern(),
 }
+
+export type AuthMethodKey = 'AZURE' | 'INTERN';
 
 export interface AuthProviderProps {
-  authUser?: AuthUser;
   children: ReactNode;
 }

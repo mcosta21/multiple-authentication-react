@@ -1,15 +1,15 @@
-import { useIsAuthenticated } from "@azure/msal-react";
 import { useAuth } from "../../hooks/useAuth";
-import { ButtonSignOut } from "../Login/ButtonSignOut";
 
 export function Home(){
-    const { signOut, isAuthenticated } = useAuth();
+    const { signOut, isAuthenticated, user } = useAuth();
     return (
         <main>
             <h1>Home</h1>
             {
-                isAuthenticated && 'Logado'
+                isAuthenticated ? 'Logado' : 'Deslogado'
             }
+
+            { user && <h1>{user.username}</h1>}
             <button onClick={() => signOut()}>Sair</button>
         </main>
     );

@@ -1,12 +1,11 @@
-import { IPublicClientApplication, PublicClientApplication } from "@azure/msal-browser";
-import { MsalProvider, useIsAuthenticated, useMsal } from "@azure/msal-react";
-import { useEffect } from "react";
-import { createContext, ReactNode, useState } from "react";
-import { loginRequest, msalConfig } from "../services/azure.config";
+import { IPublicClientApplication } from "@azure/msal-browser";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { createContext, useEffect, useState } from "react";
+import { loginRequest } from "../services/azure.config";
 import { AuthContextData, AuthProviderProps, User } from "./auth.model";
 
-export const AuthContext = createContext<AuthContextData>(
-    {} as AuthContextData,
+export const AuthAzureContext = createContext<any>(
+    { isAuthenticated: false } as AuthContextData,
 );
 
 function handleLogin(instance: IPublicClientApplication) {
@@ -35,6 +34,10 @@ export function AuthAzureProvider({ children }: AuthProviderProps) {
         }
     }, []);
 
+    useEffect(() => {
+        setUser({ email: 'teste@gmail.com', username: 'teste azure'})
+    }, [isAuthenticated]);
+
     function signIn() {
         handleLogin(instance);
     }
@@ -44,10 +47,10 @@ export function AuthAzureProvider({ children }: AuthProviderProps) {
     }
 
     return (
-        <AuthContext.Provider
+        <AuthAzureContext.Provider
             value={{ user, isAuthenticated, signIn, signOut }}
         >
             {children}
-        </AuthContext.Provider>
+        </AuthAzureContext.Provider>
     );
 }

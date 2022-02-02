@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body, main {
+    background-color: #0f0f20;
+    color: #f6f6f6;
+}
+
+input {
+    min-width: 20rem;
+    height: 3rem;
+    padding: 0 10px;
+    border-radius: 3px;
+    border: 0;
+}
+
+button {
+    height: 3rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    border: 0;
+    border-radius: 3px;
+    font-size: 1rem;
+}
+
+button:hover {
+    opacity: 0.9;
+}

@@ -3,11 +3,12 @@ import { AuthContextData, AuthProviderProps, User } from "./auth.model";
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext<AuthContextData>(
-    {} as AuthContextData,
+    { isAuthenticated: false } as AuthContextData,
 );
 
 export function AuthInternProvider({ authUser, children }: AuthProviderProps) {
     const [user, setUser] = useState<User>();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         if(authUser) {
@@ -16,7 +17,11 @@ export function AuthInternProvider({ authUser, children }: AuthProviderProps) {
     }, [authUser]);
 
     function signIn() {
-        console.log('signin - intern', authUser)
+        if(authUser) {
+            console.log('signin - intern', authUser)
+            setIsAuthenticated(true);
+            setUser({ email: authUser?.email, username: 'teste' });
+        }
     }
 
     function signOut() {
@@ -25,7 +30,7 @@ export function AuthInternProvider({ authUser, children }: AuthProviderProps) {
 
     return (
         <AuthContext.Provider
-            value={{ user, isAuthenticated: true, signIn, signOut }}
+            value={{ user, isAuthenticated, signIn, signOut }}
         >
             {children}
         </AuthContext.Provider>

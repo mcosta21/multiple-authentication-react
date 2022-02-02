@@ -6,7 +6,8 @@ import { createContext, ReactNode } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { msalConfig } from "../services/azure.config";
 import { AuthMethod, AuthUser } from "./auth.model";
-import { AuthAzureProvider, AuthContext } from "./AuthAzureContext";
+import { AuthAzureProvider } from "./AuthAzureContext";
+import { AuthProvider } from "./AuthContext";
 import { AuthInternProvider } from "./AuthInternContext";
 
 
@@ -47,6 +48,12 @@ export function AuthMethodProvider({ method, children }: AuthMethodProviderProps
           value={{ method, setMethod }}
         >
             {
+                <AuthProvider>
+                    {children}
+                </AuthProvider>
+            }
+            {
+                /*
                 authMethod === AuthMethod.AZURE ? (
                     <MsalProvider instance={msalInstance}>
                         <AuthAzureProvider>
@@ -58,6 +65,7 @@ export function AuthMethodProvider({ method, children }: AuthMethodProviderProps
                         {children}
                     </AuthInternProvider>
                 )
+                */
             }
 
         </AuthMethodContext.Provider>

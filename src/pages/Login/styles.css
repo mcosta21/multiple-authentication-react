@@ -1,5 +1,44 @@
-main {
+.login-page {
     height: 100vh;
     width: 100vw;
-    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.login-page form {
+    width: 600px;
+}
+
+.login-page form div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    grid-gap: .7rem;
+}
+
+.login-page .sign-buttons{
+    margin-bottom: 2rem
+}
+
+.login-page .btn-sign-intern {
+    width: 100%;
+    background-color: #E43F5A;
+    color: #fff;
+}
+
+
+.login-page .btn-sign-azure {
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    height: 55px;
+    width: 55px;
+}
+
+.login-page .btn-sign-azure img {
+    width: 25px;
 }
