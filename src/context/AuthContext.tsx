@@ -16,13 +16,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         createAuthMethodFromStorage();
     }, []);
 
-    function signIn(method: AuthMethodKey, authUser?: AuthUser) {
+    async function signIn(method: AuthMethodKey, authUser?: AuthUser) {
        setIsAuthProgress(true);
        localStorage.setItem('@Auth.method', method);
        const auth = AuthMethod[method];
        setAuthMethod(auth);
 
-       const user = auth.signIn();
+       const user = await auth.signIn();
 
        if(user) {
             setUserLogged(auth)

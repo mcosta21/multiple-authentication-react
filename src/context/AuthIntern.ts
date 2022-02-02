@@ -8,7 +8,7 @@ export class AuthIntern implements IAuth {
         console.log('starting auth intern');
     }
 
-    public signIn = () => {
+    public signIn = async () => {
         //setTimeout(() => {
             const userStorage = sessionStorage.getItem('@Auth.email');
             console.log('sign intern', userStorage)
