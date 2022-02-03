@@ -13,12 +13,12 @@ export class AuthIntern implements IAuth {
         await this.timeout(3000);
         if(authUser) {
             sessionStorage.setItem('@Auth.email', authUser.email);
-            return { email: authUser.email, username: 'User interno'}
+            return { email: authUser.email, username: authUser.email }
         }
 
         const userStorage = sessionStorage.getItem('@Auth.email');
         if(userStorage !== null) {
-            return { email: userStorage, username: 'User interno'}
+            return { email: userStorage, username: userStorage }
         }
 
         return undefined;

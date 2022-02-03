@@ -18,10 +18,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }, []);
 
     async function signIn(method: AuthMethodKey, authUser?: AuthUser) {
-       setIsLoading(true);
        localStorage.setItem('@Auth.method', method);
        const auth = AuthMethod[method];
        setAuthMethod(auth);
+       setIsLoading(true);
 
        const user = await auth.signIn(authUser);
 

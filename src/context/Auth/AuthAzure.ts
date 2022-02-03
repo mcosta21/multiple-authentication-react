@@ -26,8 +26,9 @@ export class AuthAzure implements IAuth {
 
     public signIn = async () => {
         console.log('sign azure');
-        await this.instance.handleRedirectPromise();
-        await handleLogin(this.instance);
+        await this.instance.handleRedirectPromise().then(() => {
+            handleLogin(this.instance);
+        });
     };
 
     public signOut = () => {
