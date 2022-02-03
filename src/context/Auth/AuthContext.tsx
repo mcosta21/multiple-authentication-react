@@ -65,9 +65,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
+    function getAuthMethodType(){
+        return authMethod ? authMethod.type : 'undefined';
+    }
+
     return (
         <AuthContext.Provider
-            value={{ user, isAuthenticated, signIn, signOut }}
+            value={{ user, isAuthenticated, signIn, signOut, getAuthMethodType }}
         >
             {children}
         </AuthContext.Provider>

@@ -1,15 +1,30 @@
 import { useAuth } from "../../hooks/useAuth";
+import './styles.css';
 
 export function Home(){
-    const { signOut, isAuthenticated, user } = useAuth();
+    const { signOut, getAuthMethodType, user } = useAuth();
     return (
-        <main>
+        <main className="home-page">
             <h1>Home</h1>
             {
-                isAuthenticated ? 'Logado' : 'Deslogado'
+                !user ? <h1>...</h1> 
+                : (
+                    <div>
+                        <p>
+                            <span>E-mail: </span>
+                            <strong>{user.email}</strong>
+                        </p>
+                        <p>
+                            <span>Nome: </span>
+                            <strong>{user.username}</strong>
+                        </p>
+                        <p>
+                            <span>Autenticado com </span>
+                            <strong>{getAuthMethodType()}</strong>
+                        </p>
+                    </div>
+                )
             }
-
-            { !!user && <h1>{user.email}</h1>}
             <button onClick={() => signOut()}>Sair</button>
         </main>
     );
