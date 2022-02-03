@@ -36,6 +36,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setUser(undefined);
             authMethod?.signOut();
             localStorage.removeItem('@Auth.method');
+            localStorage.removeItem('@Auth.user')
         }
         else {
             console.error('auth method undefined');

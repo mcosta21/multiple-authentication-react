@@ -9,7 +9,7 @@ export function Home(){
                 isAuthenticated ? 'Logado' : 'Deslogado'
             }
 
-            { user && <h1>{user.username}</h1>}
+            { !!user && <h1>{user.email}</h1>}
             <button onClick={() => signOut()}>Sair</button>
         </main>
     );

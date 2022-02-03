@@ -1,5 +1,8 @@
-import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import { AuthenticationResult, IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
+import { Client } from '@microsoft/microsoft-graph-client';
+
 import { loginRequest, msalConfig } from '../../services/azure.config';
+import { User } from './auth.model';
 import { IAuth } from './IAuth';
 
 function handleLogin(instance: IPublicClientApplication) {
@@ -46,15 +49,57 @@ export class AuthAzure implements IAuth {
     };
 
     public getUser = async () => {
-        const accounts = this.instance.getAllAccounts();
-        if(accounts.length > 0) {
-            return {
-                email: accounts[0].username,
-                username: accounts[0].name || accounts[0].username,
-            };
+
+        const userStorage = localStorage.getItem('@Auth.user');
+        if(userStorage !== null) {
+            return JSON.parse(userStorage) as User;
         }
+
+        const accounts = this.instance.getAllAccounts();
+        if(accounts.length === 0) {
+             return undefined;
+        }
+
+        const request = {
+            ...loginRequest,
+            account: accounts[0]
+        };
+
+        // Silently acquires an access token which is then attached to a request for Microsoft Graph data
+        const userAzure = await this.instance.acquireTokenSilent(request).then((response: AuthenticationResult) => {
+            return this.getUserDetails(response.accessToken);
+        });
+
+        if(userAzure) {
+            const user = {
+                email: userAzure.userPrincipalName,
+                username: userAzure.displayName
+            } as User;
+            localStorage.setItem('@Auth.user', JSON.stringify(user));
+            return user;
+        }
+
         return undefined;
     }
 
-    
+    private getAuthenticatedClient = (accessToken: string) => {
+        const client = Client.init({
+          authProvider: (done) => {
+            done(null, accessToken);
+          }
+        });
+      
+        return client;
+      }
+
+    private getUserDetails = async (accessToken: string) => {
+        const client = this.getAuthenticatedClient(accessToken);
+      
+        const user = await client
+          .api('/me')
+          .select('displayName,mail,userPrincipalName')
+          .get();
+
+        return user;
+    }
 }
