@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { AuthUser } from "../../context/Auth/auth.model";
 import { useAuth } from "../../hooks/useAuth";
+import { useLoader } from "../../hooks/useLoader";
 import './styles.css';
 
 
@@ -11,6 +12,7 @@ export function Login(){
     const [authUser, setAuthUser] = useState<AuthUser>({ email: 'a', password: 'a'});
     const { isAuthenticated, signIn } = useAuth();
     const navigate = useNavigate();
+    const { setIsLoading } = useLoader();
 
     function handleSignInAzure() {
         signIn('AZURE');
@@ -18,7 +20,6 @@ export function Login(){
 
     function handleSignInIntern(event: React.FormEvent){
         event.preventDefault();
-        
         if(!authUser.email) {
             alert('E-mail não informado')
             return;
@@ -28,7 +29,6 @@ export function Login(){
             alert('Senha não informada');
             return;
         }
-
         signIn('INTERN', authUser);
     }
 
@@ -36,6 +36,7 @@ export function Login(){
         if(isAuthenticated){
             navigate('/home');
         }
+        setIsLoading(false);
     }, [isAuthenticated])
 
     return (

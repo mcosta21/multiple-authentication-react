@@ -10,20 +10,18 @@ export class AuthIntern implements IAuth {
     }
 
     public signIn = async (authUser?: AuthUser) => {
-        setTimeout(() => {
+        await this.timeout(3000);
+        if(authUser) {
+            sessionStorage.setItem('@Auth.email', authUser.email);
+            return { email: authUser.email, username: 'User interno'}
+        }
 
-            if(authUser) {
-                sessionStorage.setItem('@Auth.email', authUser.email);
-                return { email: authUser.email, username: 'User interno'}
-            }
+        const userStorage = sessionStorage.getItem('@Auth.email');
+        if(userStorage !== null) {
+            return { email: userStorage, username: 'User interno'}
+        }
 
-            const userStorage = sessionStorage.getItem('@Auth.email');
-            if(userStorage !== null) {
-                return { email: userStorage, username: 'User interno'}
-            }
-
-            return undefined;
-        }, 200000);
+        return undefined;
     };
 
     public signOut = () => {
@@ -42,4 +40,8 @@ export class AuthIntern implements IAuth {
         }
         return undefined;
     }    
+
+    private timeout = (ms: number) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 }

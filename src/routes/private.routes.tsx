@@ -1,5 +1,5 @@
-import { ReactNode, useEffect } from 'react';
-import { Route, RouteProps, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 interface PrivateRouteProps {
@@ -10,10 +10,5 @@ export function PrivateRoute({
   children
 }: PrivateRouteProps) {
   const { isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    console.log('private route', isAuthenticated)
-  }, [isAuthenticated]);
-
   return isAuthenticated ? children : <Navigate to="/" />;
 }

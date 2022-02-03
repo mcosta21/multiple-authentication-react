@@ -1,11 +1,14 @@
 import { AppRoutes } from './routes/AppRoutes'
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from './context/Auth/AuthContext';
 import './styles/styles.css';
+import { LoadingProvider } from './context/LoadingContext';
 
 export default function App() {
   return (
-    <AuthProvider>
-        <AppRoutes />
-    </AuthProvider>
+    <LoadingProvider>
+      <AuthProvider>
+          <AppRoutes />
+      </AuthProvider>
+    </LoadingProvider>
   )
 }

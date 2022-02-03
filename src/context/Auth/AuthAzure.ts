@@ -1,5 +1,5 @@
 import { IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
-import { loginRequest, msalConfig } from '../services/azure.config';
+import { loginRequest, msalConfig } from '../../services/azure.config';
 import { IAuth } from './IAuth';
 
 function handleLogin(instance: IPublicClientApplication) {
@@ -21,7 +21,6 @@ export class AuthAzure implements IAuth {
     
     constructor(){
         this.instance = new PublicClientApplication(msalConfig);
-        console.log(msalConfig)
         console.log('starting auth azure');
     }
 
