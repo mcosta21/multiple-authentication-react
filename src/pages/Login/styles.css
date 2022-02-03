@@ -7,11 +7,11 @@
     flex-direction: column;
 }
 
-.login-page form {
+.login-page section {
     width: 600px;
 }
 
-.login-page form div {
+.login-page section div {
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;

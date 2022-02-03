@@ -18,8 +18,7 @@ export function Login(){
         signIn('AZURE');
     }
 
-    function handleSignInIntern(event: React.FormEvent){
-        event.preventDefault();
+    function handleSignInIntern(){
         if(!authUser.email) {
             alert('E-mail não informado')
             return;
@@ -33,16 +32,17 @@ export function Login(){
     }
 
     useEffect(() => {
+        console.log(isAuthenticated)
+        setIsLoading(false);
         if(isAuthenticated){
             navigate('/home');
         }
-        setIsLoading(false);
     }, [isAuthenticated])
 
     return (
         <main className="login-page">
 
-            <form onSubmit={handleSignInIntern}>
+            <section>
                 <aside className="sign-buttons">
                     <button className="btn-sign-azure" onClick={() => handleSignInAzure()}>
                         <img src="src/assets/microsoft_logo.png"/>
@@ -59,8 +59,8 @@ export function Login(){
                     <input type="password" name="password" onChange={(e) => setAuthUser({...authUser, password: e.target.value })} />
                 </div>
 
-                <button type="submit" className="btn-sign-intern">Entrar</button>
-            </form>
+                <button className="btn-sign-intern" onClick={() => handleSignInIntern()}>Entrar</button>
+            </section>
 
         </main>
     );
