@@ -9,13 +9,7 @@ import BodyRouter from "./BodyRouter";
 import { PrivateRoute } from "./private.routes";
 
 export function AppRoutes(){
-
     const { isLoading } = useLoader();
-
-    if(isLoading) {
-        console.log('is loading')
-    }
-    
     return (
         <BodyRouter>
             {isLoading && <Loading />}

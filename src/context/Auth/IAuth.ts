@@ -5,5 +5,5 @@ export interface IAuth {
     signIn: (authUser?: AuthUser) => Promise<User | void>;
     signOut: () => void;
     isAuthenticated: () => Promise<boolean>;
-    getUser: () => User | undefined;
+    getUser: () => Promise<User | undefined>;
 }

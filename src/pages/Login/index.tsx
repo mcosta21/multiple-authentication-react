@@ -9,7 +9,7 @@ import './styles.css';
 
 export function Login(){
 
-    const [authUser, setAuthUser] = useState<AuthUser>({ email: 'a', password: 'a'});
+    const [authUser, setAuthUser] = useState<AuthUser>({ email: 'marcioc424@gmail.com', password: '123456'});
     const { isAuthenticated, signIn } = useAuth();
     const navigate = useNavigate();
     const { setIsLoading } = useLoader();
@@ -32,7 +32,6 @@ export function Login(){
     }
 
     useEffect(() => {
-        console.log(isAuthenticated)
         setIsLoading(false);
         if(isAuthenticated){
             navigate('/home');
@@ -51,12 +50,21 @@ export function Login(){
 
                 <div>
                     <label htmlFor="email">E-mail:</label>
-                    <input type="email" name="email" onChange={(e) => setAuthUser({...authUser, email: e.target.value })}/>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        defaultValue={authUser.email}
+                        onChange={(e) => setAuthUser({...authUser, email: e.target.value })}
+                    />
                 </div>
 
                 <div>
                     <label htmlFor="password">Senha:</label>
-                    <input type="password" name="password" onChange={(e) => setAuthUser({...authUser, password: e.target.value })} />
+                    <input 
+                        type="password" 
+                        name="password" 
+                        defaultValue={authUser.password}
+                        onChange={(e) => setAuthUser({...authUser, password: e.target.value })} />
                 </div>
 
                 <button className="btn-sign-intern" onClick={() => handleSignInIntern()}>Entrar</button>

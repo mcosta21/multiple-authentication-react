@@ -25,7 +25,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
        const user = await auth.signIn(authUser);
 
-       console.log(user)
        if(user != undefined) {
             await setUserLogged(auth)
        }
@@ -52,7 +51,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function setUserLogged(authMethod: IAuth) {
        const isAuthenticated = await authMethod.isAuthenticated();
        setIsAuthenticated(isAuthenticated);
-       setUser(authMethod.getUser());
+       const user = await authMethod.getUser();
+       setUser(user);
     }
 
     async function createAuthMethodFromStorage(){

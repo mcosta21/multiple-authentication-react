@@ -25,7 +25,7 @@ export class AuthAzure implements IAuth {
     }
 
     public signIn = async () => {
-        console.log('sign azure');
+        console.log('signIn azure');
         await this.instance.handleRedirectPromise().then(() => {
             handleLogin(this.instance);
         });
@@ -45,7 +45,7 @@ export class AuthAzure implements IAuth {
         });
     };
 
-    public getUser = () => {
+    public getUser = async () => {
         const accounts = this.instance.getAllAccounts();
         if(accounts.length > 0) {
             return {
