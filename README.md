@@ -11,11 +11,61 @@ Using it, you'll find these providers:
 2. AZURE - Using Microsoft authentication;
 3. GOOGLE - Using Google authentication;
 
-### Environment variables
+<br />
+
+# Auth Hook
+
+Inside Login and others pages, you can access the signIn and signOut methods, and get the user data or verify if it's logged. In this example, I'm using it on login page with signIn method when button clicked, and checking if it is authenticated using useEffect hook, like that:
+
+~~~c
+export function Login(){
+
+    const { isAuthenticated, signIn } = useAuth();
+
+    useEffect(() => {
+        setIsLoading(false);
+        if(isAuthenticated){
+            navigate('/home');
+        }
+    }, [isAuthenticated])
+
+    ...
+    
+    function handleSignInAzure() {
+        signIn('AZURE');
+    }
+
+    function handleSignInIntern(){
+        if(!authUser.email) {
+            alert('E-mail não informado')
+            return;
+        };
+
+        if(!authUser.password) {
+            alert('Senha não informada');
+            return;
+        }
+        signIn('INTERN', authUser);
+    }
+
+    function handleSignInGoogle(){
+        signIn('GOOGLE');
+    }
+    
+    return (
+    	...
+    )
+~~~
+
+> The Context code used by useAuth is [AuthContext.tsx](https://github.com/mcosta21/multiple-authentication-react/blob/main/src/context/Auth/AuthContext.tsx)
+
+<br />
+
+# Environment variables
 
 Normally, the external authetications likes Microsoft and Google, it needs a key called clientId, because of that, you'll need to set your own key on .env file.
 
-~~~json
+~~~c
 // .env.example
 VITE_AZURE_CLIENT_ID=
 VITE_GOOGLE_CLIENT_ID=
@@ -27,10 +77,46 @@ VITE_LOGIN_PAGE=http://localhost:3000
 - [Microsoft](https://docs.microsoft.com/pt-br/azure/databricks/dev-tools/api/latest/aad/app-aad-token)
 - [Google](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)
 	
+<br />
+
+# Auth Config
+
+Inside the services folder, you'll find some config files like azure.config.ts, and google.config.ts; those files contains some basics informations to use the services, and it'll be using the clientId keys that you got on previous topic.
+
+~~~javascript
+// azure.config.ts
+export const msalConfig = {
+    auth: {
+      clientId: import.meta.env.VITE_AZURE_CLIENT_ID,
+      redirectUri: import.meta.env.VITE_LOGIN_PAGE,
+      authority: "https://login.microsoftonline.com/common",
+    },
+    cache: {
+      cacheLocation: 'sessionStorage',
+      storeAuthStateInCookie: false,
+    },
+} as MsalConfig;
+  
+export const loginRequest = {
+  scopes: ['user.read'],
+}
+~~~
+
+~~~javascript
+// google.config.ts
+export const googleConfig = {
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    uxMode: 'redirect',
+    redirectUri: import.meta.env.VITE_LOGIN_PAGE,
+    scopes: 'profile email openid',
+    cookiePolicy: 'single_host_origin'
+} as gapi.auth2.ClientConfig;
+~~~
 
 # Auth Services
 
 All services implements the IAuth interface, so you can use these methods:
+
 ~~~javascript
 export interface IAuth {
     type: AuthMethodKey;
@@ -42,8 +128,9 @@ export interface IAuth {
 ~~~
 
 
-<details>  
-<summary><h3>Azure<h3></summary>  
+### Azure 
+
+[Check code!](https://github.com/mcosta21/multiple-authentication-react/blob/main/src/context/Auth/AuthAzure.ts)
 
 ~~~javascript
 import { AuthenticationResult, IPublicClientApplication, PublicClientApplication } from '@azure/msal-browser';
@@ -153,10 +240,9 @@ export class AuthAzure implements IAuth {
 }
 ~~~
 
-</details>
+### GOOGLE
 
-<details>  
-<summary><h3>GOOGLE<h3></summary>  
+[Check code!](https://github.com/mcosta21/multiple-authentication-react/blob/main/src/context/Auth/AuthGoogle.ts)
 
 ~~~javascript
 import { AuthMethodKey } from './auth.model';
@@ -221,12 +307,11 @@ export class AuthGoogle implements IAuth {
 }
 ~~~
 
-</details>  
-
-<details>  
-<summary><h3>INTERN<h3></summary>  
+### INTERN
 
 > This authentication uses the SessionStorage to save the user, and simulate a process api.
+
+[Check code!](https://github.com/mcosta21/multiple-authentication-react/blob/main/src/context/Auth/AuthIntern.ts)
 
 ~~~javascript
 import { AuthUser, AuthMethodKey } from './auth.model';
@@ -277,3 +362,5 @@ export class AuthIntern implements IAuth {
     }
 }
 ~~~
+
+### I hope you enjoying this project, have fun!!! 
