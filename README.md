@@ -11,6 +11,11 @@ Using it, you'll find these providers:
 2. AZURE - Using Microsoft authentication;
 3. GOOGLE - Using Google authentication;
 
+
+<div align="center">
+<img src="https://github.com/mcosta21/multiple-authentication-react/blob/main/src/assets/example.gif" width="80%" />
+</div>
+
 <br />
 
 # Auth Hook
