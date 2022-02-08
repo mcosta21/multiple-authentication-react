@@ -1,4 +1,4 @@
-# Multiple Auth React
+# Multiple Authentication React
 
 This project provides a multiple authentication process using React. 
 So, you can use multiple methods to user autheticate inside your application, 
