@@ -1,9 +1,9 @@
-import { AuthUser, User } from "./auth.model";
+import { AuthMethodKey, AuthUser, User } from "./auth.model";
 
 export interface IAuth {
-    type: string;
+    type: AuthMethodKey;
     signIn: (authUser?: AuthUser) => Promise<User | void>;
-    signOut: () => void;
+    signOut: () => Promise<void>;
     isAuthenticated: () => Promise<boolean>;
     getUser: () => Promise<User | undefined>;
 }

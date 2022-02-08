@@ -19,7 +19,10 @@
 }
 
 .login-page .sign-buttons{
-    margin-bottom: 2rem
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    grid-gap: 14px;
 }
 
 .login-page .btn-sign-intern {
@@ -29,8 +32,7 @@
 }
 
 
-.login-page .btn-sign-azure {
-    background-color: #000;
+.login-page .btn-sign-azure, .login-page .btn-sign-google {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,4 +43,17 @@
 
 .login-page .btn-sign-azure img {
     width: 25px;
+}
+
+.login-page .btn-sign-google img {
+    width: 30px;
+}
+
+.login-page footer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+    align-items: flex-start;
+    font-size: 0.8rem;
 }

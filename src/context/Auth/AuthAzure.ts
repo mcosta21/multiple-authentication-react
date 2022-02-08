@@ -2,24 +2,12 @@ import { AuthenticationResult, IPublicClientApplication, PublicClientApplication
 import { Client } from '@microsoft/microsoft-graph-client';
 
 import { loginRequest, msalConfig } from '../../services/azure.config';
-import { User } from './auth.model';
+import { User, AuthMethodKey } from './auth.model';
 import { IAuth } from './IAuth';
-
-function handleLogin(instance: IPublicClientApplication) {
-    instance.loginRedirect(loginRequest).catch(e => {
-        console.error(e);
-    });
-}
-
-function handleLogout(instance: IPublicClientApplication) {
-    instance.logout().catch(e => {
-        console.error(e);
-    });
-}
 
 export class AuthAzure implements IAuth {
 
-    public type = 'AZURE';
+    public type: AuthMethodKey = 'AZURE';
     private instance: PublicClientApplication;
     
     constructor(){
@@ -30,14 +18,14 @@ export class AuthAzure implements IAuth {
     public signIn = async () => {
         console.log('signIn azure');
         await this.instance.handleRedirectPromise().then(() => {
-            handleLogin(this.instance);
+            this.handleLogin(this.instance);
         });
     };
 
-    public signOut = () => {
+    public signOut = async () => {
         console.log('signOut azure');
-        this.instance.handleRedirectPromise().then(() => {
-            handleLogout(this.instance);
+        await this.instance.handleRedirectPromise().then(() => {
+            this.handleLogout(this.instance);
         });
     };
 
@@ -101,5 +89,17 @@ export class AuthAzure implements IAuth {
           .get();
 
         return user;
+    }
+        
+    private handleLogin = (instance: IPublicClientApplication) => {
+        instance.loginRedirect(loginRequest).catch(e => {
+            console.error(e);
+        });
+    }
+
+    private handleLogout = (instance: IPublicClientApplication) => {
+        instance.logout().catch(e => {
+            console.error(e);
+        });
     }
 }

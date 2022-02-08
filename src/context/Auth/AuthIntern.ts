@@ -1,9 +1,9 @@
-import { AuthUser } from './auth.model';
+import { AuthUser, AuthMethodKey } from './auth.model';
 import { IAuth } from './IAuth';
 
 export class AuthIntern implements IAuth {
 
-    public type = 'INTERN';
+    public type: AuthMethodKey = 'INTERN';
 
     constructor(){
         console.log('starting auth intern');
@@ -24,7 +24,7 @@ export class AuthIntern implements IAuth {
         return undefined;
     };
 
-    public signOut = () => {
+    public signOut = async () => {
         sessionStorage.removeItem('@Auth.email')
     };
 

@@ -10,6 +10,13 @@ export function Home(){
                 !user ? <h1>...</h1> 
                 : (
                     <div>
+                        {
+                            !!user.photo && (
+                                <aside className="photo">
+                                    <img src={user.photo} />
+                                </aside>
+                            )
+                        }
                         <p>
                             <span>E-mail: </span>
                             <strong>{user.email}</strong>

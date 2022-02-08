@@ -1,10 +1,12 @@
 import { AuthIntern } from './AuthIntern';
 import { AuthAzure } from './AuthAzure';
 import { ReactNode } from "react";
+import { AuthGoogle } from './AuthGoogle';
 
 export interface User {
   username: string;
   email: string;
+  photo?: string;
 }
 
 export interface AuthUser {
@@ -23,9 +25,10 @@ export interface AuthContextData {
 export const AuthMethod = {
   AZURE: new AuthAzure(),
   INTERN: new AuthIntern(),
+  GOOGLE: new AuthGoogle(),
 }
 
-export type AuthMethodKey = 'AZURE' | 'INTERN';
+export type AuthMethodKey = 'AZURE' | 'INTERN' | 'GOOGLE';
 
 export interface AuthProviderProps {
   children: ReactNode;
