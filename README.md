@@ -368,4 +368,6 @@ export class AuthIntern implements IAuth {
 }
 ~~~
 
-### I hope you enjoying this project, have fun!!! 
+<br/>
+
+> Developed by [Marcio Costa](https://www.linkedin.com/in/mcosta21/).
